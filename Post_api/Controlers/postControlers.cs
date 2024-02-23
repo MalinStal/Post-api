@@ -17,7 +17,7 @@ public class PostControllers : ControllerBase
     }
 
     [HttpPost("newpost")]
-    public IActionResult CreateUser([FromBody] CreatePostDto dto, [FromBody] int user)
+    public IActionResult CreateUser([FromBody] CreatePostDto dto, [FromQuery] int user)
     {
         try
         {

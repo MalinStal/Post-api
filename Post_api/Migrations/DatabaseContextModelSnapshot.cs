@@ -33,7 +33,7 @@ namespace Post_api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("Postid")
+                    b.Property<int>("PostId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Title")
@@ -45,7 +45,7 @@ namespace Post_api.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("Postid");
+                    b.HasIndex("PostId");
 
                     b.HasIndex("UserId");
 
@@ -54,11 +54,11 @@ namespace Post_api.Migrations
 
             modelBuilder.Entity("post.Post", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Body")
                         .IsRequired()
@@ -71,7 +71,7 @@ namespace Post_api.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
@@ -107,7 +107,7 @@ namespace Post_api.Migrations
                 {
                     b.HasOne("post.Post", "Post")
                         .WithMany()
-                        .HasForeignKey("Postid")
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -125,7 +125,7 @@ namespace Post_api.Migrations
             modelBuilder.Entity("post.Post", b =>
                 {
                     b.HasOne("post.User", "User")
-                        .WithMany("AllMyPost")
+                        .WithMany("Posts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -135,7 +135,7 @@ namespace Post_api.Migrations
 
             modelBuilder.Entity("post.User", b =>
                 {
-                    b.Navigation("AllMyPost");
+                    b.Navigation("Posts");
                 });
 #pragma warning restore 612, 618
         }

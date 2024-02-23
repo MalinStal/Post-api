@@ -1,19 +1,11 @@
 
 #Post API 
 
-just nu så sparas inte all data som vi vill ha från en user och en post. Post och User conectar inte till varan och tror det är för att vi måste
- ha en lista i users med postdto som skapas ner i databasen. 
- Sen vet ja inte hur vi ska få alla post som läggs till att hamna i ätt users lista av posts. men antar att man måste hantera userService i 
- postService och filtrera på users och sedan lägga till i userPostlistan när man skapar en ny post.
-
  lite luddig....
 
- Todo! 
+Done!
  ✔️ skapa ett github repo till detta projekt !!
  
- - hantera post listan i user med dto ev visevärsa och samma med comments 
- - när man skapar en ny post så ska detta kopplas ihop med en user och läggas in i den användarens lista av posts. 
-
  när relationen mellan user och post funkar...
 
  -skapa en service för comments 
@@ -24,3 +16,8 @@ just nu så sparas inte all data som vi vill ha från en user och en post. Post 
 
 
 
+Har haft massa problem med user och post för att få dom att funka ihop utan massa errors. Nu efter mycket om och men så är alla classer för post och users med DTOs fixade så det ska fungera. däremot så är det något som blir fel i databasen kring detta fortfarande .troligtvis något med koden i controllers. 
+
+Todo!
+- gå igenom alla functioner 1 efter 1 som du gjort tidigare med users och posts. kolla allt i service contra controllern. ev hantera all logic i service för att göra det enklare i kopplingen. 
+- idetifera problelemt som är just nu kring detta. 
