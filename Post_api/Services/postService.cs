@@ -17,11 +17,16 @@ public class PostService{
         {
             throw new ArgumentException("content must not be null or empty");
         }
-          
-        Post newPost = new Post(title,body,userId);
-        context.Posts.Add(newPost);
-        context.SaveChanges();
-        return newPost;
+       User? user =  context.Users.Find(userId);
+        if(user != null){
+            Post newPost = new Post(title,body,user); 
+            context.Posts.Add(newPost);
+           
+            context.SaveChanges();
+            return newPost;
+        }
+      throw new ArgumentException("there is no User connected to this id");
+       
     }
 
     public Post DeletePost(int id){

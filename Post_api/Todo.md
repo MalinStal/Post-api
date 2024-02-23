@@ -9,7 +9,8 @@ just nu så sparas inte all data som vi vill ha från en user och en post. Post 
  lite luddig....
 
  Todo! 
- - skapa ett github repo till detta projekt !!
+ ✔️ skapa ett github repo till detta projekt !!
+ 
  - hantera post listan i user med dto ev visevärsa och samma med comments 
  - när man skapar en ny post så ska detta kopplas ihop med en user och läggas in i den användarens lista av posts. 
 
@@ -20,4 +21,6 @@ just nu så sparas inte all data som vi vill ha från en user och en post. Post 
  -koppla ihop commetns med användare och post. 
 
  tror inte vi behöver göra så mycket mer när dessa relationer är kopplade. 
+
+
 

@@ -17,6 +17,9 @@ public class Program
                     "Host=localhost;Database=post;Username=postgres;Password=post" 
         ));
 
+        
+    
+
         builder.Services.AddScoped<UserService, UserService>();
         builder.Services.AddScoped<PostService, PostService>();
         // // Add services to the container.

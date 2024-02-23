@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "GVziF+asyCkw6JxOnuFivrA1QK3T2H3NiBvVtQxMDV/qxfwXE8FT32SRRCTvid3QspORREti2wbKJZRByOkRbw==",
+  "dgSpecHash": "1Q4l4rKvqwEJzmrMsEqv5OerGXSbUW6RrIb0TsXxF8PUNuPoZBQcILjHF/lUW1q1X6NLNOL0iHlTuIHYcFUCcw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\malin\\Desktop\\aspnet\\Post_api\\Post_api.csproj",
+  "projectFilePath": "C:\\Users\\malin\\Desktop\\aspnet\\Post-project\\Post_api\\Post_api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\malin\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\malin\\.nuget\\packages\\microsoft.aspnetcore.openapi\\8.0.2\\microsoft.aspnetcore.openapi.8.0.2.nupkg.sha512",

@@ -17,11 +17,11 @@ public class PostControllers : ControllerBase
     }
 
     [HttpPost("newpost")]
-    public IActionResult CreateUser([FromBody] CreatePostDto dto)
+    public IActionResult CreateUser([FromBody] CreatePostDto dto, [FromBody] int user)
     {
         try
         {
-            Post newPost = postService.CreatePost(dto.Title, dto.Body, dto.User_id);
+            Post newPost = postService.CreatePost(dto.Title, dto.Body, user);
             return Ok(newPost);
         }
         catch (ArgumentException)

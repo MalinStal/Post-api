@@ -1,18 +1,24 @@
+using System.Text.Json.Serialization;
+
 namespace post;
+
+//Coments har meny to one relation med post och user
 public class Comment{
     public int id {get; set;}
     public string Title {get; set;}
     public string Body {get; set;}
-    public int User_id {get; set;}
-    public int Post_id {get; set;}
+     [JsonIgnore]
+    public User User {get; set;}
+     [JsonIgnore]
+    public Post Post {get; set;}
 
    public Comment(){}
 
-    public Comment(string title,string body, int userId, int postId){
+    public Comment(string title,string body, User user, Post post){
         Title = title;
         Body = body;
-        User_id =userId;
-        Post_id = postId;
+        User = user;
+        Post = post;
         
     }
 }
@@ -21,15 +27,16 @@ public class CreateCommentDto
 {
   public string Title {get; set;}
   public string Body {get; set;}  
-  public int User_id { get; set;} 
-  public int Post_id { get; set;} 
+  public int User { get; set;} 
+  public int Post { get; set;} 
 
    public CreateCommentDto(){}
     public CreateCommentDto(
-      string title, string body, int userid, int postid){
+      string title, string body, int userId, int postId){
         Title = title;
         Body = body;
-        User_id = userid;
-        Post_id = postid;
+        User = userId;
+        Post = postId;
       }
 }
+

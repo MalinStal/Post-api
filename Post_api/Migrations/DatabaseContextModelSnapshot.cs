@@ -33,17 +33,21 @@ namespace Post_api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("Post_id")
+                    b.Property<int>("Postid")
                         .HasColumnType("integer");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("User_id")
+                    b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("id");
+
+                    b.HasIndex("Postid");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Comments");
                 });
@@ -64,10 +68,12 @@ namespace Post_api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("User_Id")
+                    b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Posts");
                 });
@@ -95,6 +101,41 @@ namespace Post_api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("post.Comment", b =>
+                {
+                    b.HasOne("post.Post", "Post")
+                        .WithMany()
+                        .HasForeignKey("Postid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("post.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("post.Post", b =>
+                {
+                    b.HasOne("post.User", "User")
+                        .WithMany("AllMyPost")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("post.User", b =>
+                {
+                    b.Navigation("AllMyPost");
                 });
 #pragma warning restore 612, 618
         }

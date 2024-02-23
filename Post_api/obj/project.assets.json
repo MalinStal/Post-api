@@ -2711,11 +2711,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\malin\\Desktop\\aspnet\\Post_api\\Post_api.csproj",
+      "projectUniqueName": "C:\\Users\\malin\\Desktop\\aspnet\\Post-project\\Post_api\\Post_api.csproj",
       "projectName": "Post_api",
-      "projectPath": "c:\\Users\\malin\\Desktop\\aspnet\\Post_api\\Post_api.csproj",
+      "projectPath": "C:\\Users\\malin\\Desktop\\aspnet\\Post-project\\Post_api\\Post_api.csproj",
       "packagesPath": "C:\\Users\\malin\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\malin\\Desktop\\aspnet\\Post_api\\obj\\",
+      "outputPath": "C:\\Users\\malin\\Desktop\\aspnet\\Post-project\\Post_api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\malin\\AppData\\Roaming\\NuGet\\NuGet.Config"

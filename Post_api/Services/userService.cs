@@ -1,3 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
 namespace post;
 
 public class UserService{
@@ -21,7 +25,7 @@ public class UserService{
         {
             throw new ArgumentException("password must not be null or empty");
         }
-        User newUser = new User(name,email,password);
+        User newUser = new User(name,email,password, new List<Post>());
         context.Users.Add(newUser);
         context.SaveChanges();
         return newUser;
@@ -52,7 +56,10 @@ public class UserService{
     }
 
     public List<User> GetAllUsers(){
-        return context.Users.ToList();
+        //ta användaren och inkludera listan som heter AllMyPost
+        var list = context.Users.Include(list => list.Posts).ToList();
+        return list;
+
     }
 
 

@@ -16,7 +16,7 @@ public class UserControllers : ControllerBase
         this.userService = userService;
     }
 
-    [HttpPost("newuser")]
+    [HttpPost]
     public IActionResult CreateUser([FromBody] CreateUserDto dto)
     {
         try
@@ -44,10 +44,12 @@ public class UserControllers : ControllerBase
         }
     }
 
-    [HttpGet("users")]
+    [HttpGet]
     public List<User> GetAllUser()
-    {
-        return userService.GetAllUsers();
+    {   var list = userService.GetAllUsers();
+         var newList = list.Select(post => new UserDto(post)).ToList();
+        return list;
+      
     }
 
     [HttpPut("update/{id}")]
