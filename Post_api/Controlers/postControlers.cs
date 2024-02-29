@@ -5,6 +5,31 @@ using Microsoft.Extensions.Options;
 
 namespace post;
 
+public class CreatePostDto
+{
+    public string Title { get; set; } = "";
+    public string Body { get; set; } = "";
+    public int User {get; set;} = 0;
+     public int Post {get; set;} = 0;
+     public List<CreateCommentDto> Comments {get; set;} = new List<CreateCommentDto>();
+}
+
+public class PostDto
+{
+    public int Id { get; set; }
+    public string Title { get; set; }
+    public string Body { get; set; }
+
+    public List<CommentDto> Comments {get; set;}
+
+    public PostDto(Post post)
+    {
+        this.Id = post.Id;
+        this.Title = post.Title;
+        this.Body = post.Body;
+        this.Comments = post.Comments.Select(comment => new CommentDto(comment)).ToList();
+    }
+}
 [ApiController]
 [Route("post")]
 public class PostControllers : ControllerBase

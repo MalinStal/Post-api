@@ -5,6 +5,35 @@ using Microsoft.Extensions.Options;
 
 namespace post;
 
+
+public class CreateUserDto
+{
+    public string Name { get; set; } = "";
+    public string Email { get; set; } = "";
+     public string Password { get; set; } = "";
+    public List<CreatePostDto> Posts { get; set; } = new List<CreatePostDto>();
+}
+
+public class UserDto
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Email { get; set; }
+
+     public string Password { get; set; } 
+    public List<PostDto> Posts { get; set; }
+
+    public UserDto(User user)
+    {
+        this.Id = user.Id;
+        this.Name = user.Name;
+        this.Email= user.Email;
+        this.Password = user.Password;
+        this.Posts = user.Posts.Select(post => new PostDto(post)).ToList();
+    }
+}
+
+
 [ApiController]
 [Route("user")]
 public class UserControllers : ControllerBase
