@@ -10,6 +10,7 @@ namespace post;
 public class PostControllers : ControllerBase
 {
     PostService postService;
+   
 
     public PostControllers(PostService postService)
     {
@@ -17,11 +18,11 @@ public class PostControllers : ControllerBase
     }
 
     [HttpPost("newpost")]
-    public IActionResult CreateUser([FromBody] CreatePostDto dto, [FromQuery] int user)
+    public IActionResult CreatePost([FromBody] CreatePostDto dto)
     {
         try
         {
-            Post newPost = postService.CreatePost(dto.Title, dto.Body, user);
+            Post newPost = postService.CreatePost(dto.Title, dto.Body, dto.User);
             return Ok(newPost);
         }
         catch (ArgumentException)
@@ -45,9 +46,11 @@ public class PostControllers : ControllerBase
     }
 
     [HttpGet("allPosts")]
-    public List<Post> GetAllUser()
+    public List<Post> GetAllPosts()
     {
-        return postService.GetAllUsers();
+        var list = postService.GetAllPost();
+        var newList = list.Select(comment => new PostDto(comment)).ToList();
+        return list;
     }
 
     [HttpPut("update/{id}")]

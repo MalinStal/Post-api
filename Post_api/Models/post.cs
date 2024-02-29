@@ -11,14 +11,16 @@ public class Post
     public string Body { get; set; }
     [JsonIgnore]
     public User User { get; set; }
+    public List<Comment> Comments {get; set;}
 
     public Post() { }
 
-    public Post(string title, string body, User user)
+    public Post(string title, string body, User user, List<Comment> comment)
     {
         this.Title = title;
         this.Body = body;
         this.User = user;
+        this.Comments = comment;
     }
 }
 
@@ -26,7 +28,9 @@ public class CreatePostDto
 {
     public string Title { get; set; } = "";
     public string Body { get; set; } = "";
-    // public int Id {get; set;} = 0;
+    public int User {get; set;} = 0;
+     public int Post {get; set;} = 0;
+     public List<CreateCommentDto> Comments {get; set;} = new List<CreateCommentDto>();
 }
 
 public class PostDto
@@ -35,10 +39,13 @@ public class PostDto
     public string Title { get; set; }
     public string Body { get; set; }
 
-    public PostDto(Post power)
+    public List<CommentDto> Comments {get; set;}
+
+    public PostDto(Post post)
     {
-        this.Id = power.Id;
-        this.Title = power.Title;
-        this.Body = power.Body;
+        this.Id = post.Id;
+        this.Title = post.Title;
+        this.Body = post.Body;
+        this.Comments = post.Comments.Select(comment => new CommentDto(comment)).ToList();
     }
 }

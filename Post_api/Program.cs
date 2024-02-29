@@ -22,6 +22,7 @@ public class Program
 
         builder.Services.AddScoped<UserService, UserService>();
         builder.Services.AddScoped<PostService, PostService>();
+        builder.Services.AddScoped<CommentService, CommentService>();
         // // Add services to the container.
         // builder.Services.AddAuthorization();
 

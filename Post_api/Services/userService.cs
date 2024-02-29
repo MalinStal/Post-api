@@ -56,8 +56,9 @@ public class UserService{
     }
 
     public List<User> GetAllUsers(){
-        //ta användaren och inkludera listan som heter AllMyPost
-        var list = context.Users.Include(list => list.Posts).ToList();
+        //ta användaren och inkludera listan som heter Post
+        
+        var list = context.Users.Include(user => user.Posts).ThenInclude(post => post.Comments).ToList();
         return list;
 
     }

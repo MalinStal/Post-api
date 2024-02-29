@@ -48,6 +48,6 @@ public class UserDto
         this.Name = user.Name;
         this.Email= user.Email;
         this.Password = user.Password;
-        this.Posts = user.Posts.Select(power => new PostDto(power)).ToList();
+        this.Posts = user.Posts.Select(post => new PostDto(post)).ToList();
     }
 }

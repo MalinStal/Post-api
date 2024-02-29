@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+
 namespace post;
 
 public class PostService{
@@ -19,7 +21,7 @@ public class PostService{
         }
        User? user =  context.Users.Find(userId);
         if(user != null){
-            Post newPost = new Post(title,body,user); 
+            Post newPost = new Post(title,body,user, new List<Comment>()); 
             context.Posts.Add(newPost);
            
             context.SaveChanges();
@@ -57,8 +59,11 @@ public class PostService{
         throw new ArgumentException("Cant find post whit this id");
     }
 
-    public List<Post> GetAllUsers(){
-        return context.Posts.ToList();
+    public List<Post> GetAllPost(){
+
+var list = context.Posts.Include(p => p.Comments).ToList();
+         
+    return list;
     }
 
 
