@@ -1,3 +1,6 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
@@ -43,12 +46,22 @@ public class PostControllers : ControllerBase
     }
 
     [HttpPost("newpost")]
+    [Authorize("create-post")]
     public IActionResult CreatePost([FromBody] CreatePostDto dto)
     {
         try
         {
-            Post newPost = postService.CreatePost(dto.Title, dto.Body, dto.User);
-            return Ok(newPost);
+           var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+           if(id != null )
+           {
+                Post newPost = postService.CreatePost(dto.Title, dto.Body, id);
+
+                PostDto output = new PostDto(newPost);
+            return Ok(output);
+           }
+
+         return BadRequest();
+
         }
         catch (ArgumentException)
         {
@@ -56,12 +69,19 @@ public class PostControllers : ControllerBase
         }
     }
 
+
     [HttpDelete("delete/{id}")]
+    [Authorize("remove-post")]
     public IActionResult DeletePost(int id)
     {
         try
         {
-            Post post = postService.DeletePost(id);
+             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+             if(userId == null)
+             {
+                return NotFound();
+             }
+            Post post = postService.DeletePost(id, userId);
             return Ok(post);
         }
         catch (ArgumentException)
@@ -79,15 +99,25 @@ public class PostControllers : ControllerBase
     }
 
     [HttpPut("update/{id}")]
+    [Authorize("update-post")]
     public IActionResult UpdatePost(int id, [FromBody] CreatePostDto dto)
     {
-        Post post = postService.UpdatePost(id, dto.Title, dto.Body);
+        try{
+             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+          if(userId != null ){
+             Post post = postService.UpdatePost(id, userId, dto.Title, dto.Body);
         if (post != null)
         {
             return Ok(post);
             
         }
-            return NotFound();
+          }
+       
+        }catch(ArgumentException){
+             return BadRequest("you are not authorized");
+        }
+   
+             return BadRequest("you are not authorized");
 
     }
 }

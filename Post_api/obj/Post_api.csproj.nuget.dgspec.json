@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\malin\\Desktop\\aspnet\\Post-project\\Post_api\\Post_api.csproj": {}
+    "C:\\Users\\malin\\Desktop\\YH-kurser\\BU2-aspnet\\Post-project\\Post_api\\Post_api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\malin\\Desktop\\aspnet\\Post-project\\Post_api\\Post_api.csproj": {
+    "C:\\Users\\malin\\Desktop\\YH-kurser\\BU2-aspnet\\Post-project\\Post_api\\Post_api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\malin\\Desktop\\aspnet\\Post-project\\Post_api\\Post_api.csproj",
+        "projectUniqueName": "C:\\Users\\malin\\Desktop\\YH-kurser\\BU2-aspnet\\Post-project\\Post_api\\Post_api.csproj",
         "projectName": "Post_api",
-        "projectPath": "C:\\Users\\malin\\Desktop\\aspnet\\Post-project\\Post_api\\Post_api.csproj",
+        "projectPath": "C:\\Users\\malin\\Desktop\\YH-kurser\\BU2-aspnet\\Post-project\\Post_api\\Post_api.csproj",
         "packagesPath": "C:\\Users\\malin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\malin\\Desktop\\aspnet\\Post-project\\Post_api\\obj\\",
+        "outputPath": "C:\\Users\\malin\\Desktop\\YH-kurser\\BU2-aspnet\\Post-project\\Post_api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\malin\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -43,6 +43,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[8.0.2, )"

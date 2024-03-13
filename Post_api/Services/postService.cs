@@ -1,3 +1,4 @@
+using System.IO.Compression;
 using Microsoft.EntityFrameworkCore;
 
 namespace post;
@@ -8,8 +9,8 @@ public class PostService{
     public PostService(DatabaseContext context){
          this.context = context;
     }
-
-     public Post CreatePost(string title, string body, int userId){
+ 
+     public Post CreatePost(string title, string body, string userId){
       if (string.IsNullOrWhiteSpace(title))
         {
             throw new ArgumentException("title must not be null or empty");
@@ -21,8 +22,10 @@ public class PostService{
         }
        User? user =  context.Users.Find(userId);
         if(user != null){
+
             Post newPost = new Post(title,body,user, new List<Comment>()); 
             context.Posts.Add(newPost);
+            
            
             context.SaveChanges();
             return newPost;
@@ -31,24 +34,34 @@ public class PostService{
        
     }
 
-    public Post DeletePost(int id){
+    public Post DeletePost(int id, string userId){
        
-             Post? post = context.Posts.Find(id);
-             if (post != null){
+       User? user = context.Users.Find(userId);
+       if(user != null) {
+            List<Post>? posts = context.Posts.Where(post => post.User.Id == user.Id && post.Id == id).ToList();
+             
+            if (posts != null){
+                Post post = posts[0];
                 context.Posts.Remove(post);
                 context.SaveChanges();
                 return post;
         
              }
+              throw new ArgumentException("cant find post");
+       } 
             throw new ArgumentException("cant find post");
          
        
     }
 
-    public Post UpdatePost(int id,string title, string body){
-        
-             Post? post = context.Posts.Find(id);
-             if (post != null){
+    public Post UpdatePost(int id,string userId, string title, string body){
+         User? user = context.Users.Find(userId);
+       if(user != null) {
+            List<Post>? posts = context.Posts.Where(post => post.User.Id == user.Id && post.Id == id).ToList();
+             
+            if (posts != null){
+                Post post = posts[0];
+
                 post.Title = title;
                 post.Body = body;
                 context.Posts.Update(post);
@@ -56,13 +69,16 @@ public class PostService{
                 return post;
         
              }
+              throw new ArgumentException("cant find post");
+       } 
+         
+         
         throw new ArgumentException("Cant find post whit this id");
     }
 
     public List<Post> GetAllPost(){
 
-var list = context.Posts.Include(p => p.Comments).ToList();
-         
+    var list = context.Posts.Include(p => p.Comments).ToList();     
     return list;
     }
 
