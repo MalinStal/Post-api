@@ -15,6 +15,7 @@ public class CreatePostDto
     public int User {get; set;} = 0;
      public int Post {get; set;} = 0;
      public List<CreateCommentDto> Comments {get; set;} = new List<CreateCommentDto>();
+    public List<FileModel> Files {get; set;} = new List<FileModel>();
 }
 
 public class PostDto
@@ -24,6 +25,7 @@ public class PostDto
     public string Body { get; set; }
 
     public List<CommentDto> Comments {get; set;}
+    public List<FileModel> Files {get; set;}
 
     public PostDto(Post post)
     {
@@ -31,6 +33,7 @@ public class PostDto
         this.Title = post.Title;
         this.Body = post.Body;
         this.Comments = post.Comments.Select(comment => new CommentDto(comment)).ToList();
+        this.Files = post.Images.Select(files => new FileModel(files.Name, files.Content, files.Extension)).ToList();
     }
 }
 [ApiController]

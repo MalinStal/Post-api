@@ -12,17 +12,19 @@ public class Post
     [JsonIgnore]
     public User? User { get; set; }
     public List<Comment>? Comments {get; set;}
+    public List<FileModel>? Images {get; set;}
 
    
 
     public Post() { }
 
-    public Post(string title, string body, User user, List<Comment> comment)
+    public Post(string title, string body, User user, List<Comment> comment, List<FileModel> files)
     {
         this.Title = title;
         this.Body = body;
         this.User = user;
         this.Comments = comment;
+        this.Images = files;
   
 
     }
