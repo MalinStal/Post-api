@@ -10,10 +10,14 @@ public byte[]? Content {get; set;}
 
 //
 public string? Extension {get; set;}
+
+public FileModel(){}
 public FileModel(string name, byte[] content, string ex){
     this.Name = name;
     this.Content = content;
     this.Extension = ex;
 
 }
+
+
 }

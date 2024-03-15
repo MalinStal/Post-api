@@ -16,10 +16,7 @@ Todo!
 - En post ska nu också kunna innehålla flera bild filer. 
 - skapa olika nivåer av användare, en user och en admin roll som kan hantera allas post och kommentarer. 
 - få med namn på user i kommentarerna 
+- kan vi göra denna app mer säker? typ anvönda protected istället för public?
 
 ### bild hantering 
-om vi tänker på vad som är rimmligt för en blogg är ju att kvalitet på bilder är viktigt vilket gör att bild storleken inte får vara för liten. Därför tror jag att det kan vara bra att ha typ 350kb som max file och att den filen om det behövs får delas upp i två byte[] om det inte funkar för databasen att hantera mindre filer. 
-
-okej det som är gjort nu är filService som validerar filens innehåll med specifika krav och sedan skapar en fil som sparas i context. Frågan är ska filen sparas som comments i en lista i post? elelr hur gör vi med det? 
-
-kolla över hur filen sparas plus att man ska ju kunna spara flera filer så detta behöver också ses över. juste vi får nog skapa en lista dirket i post servisen och sen skicka in den sparade lista till databasen nr vi skapar en ny post??? tror jag elelr så får man pusha varje img i en loop till den listan som är i post databsen efter att man skapat en post ?kanske enklare ?? fundera på lösningar och kolla vidare på detta :) 
+okej nu fungerar det att lägga till filer utan error. däremot så blir listan med filelr null och de sarasa inget i databasen så det har blivt något fel. där. Kan ha med hur post sparar filerna att göra. inte helt säkert att det går att göra så som vi gjort med list.add grejen i modelerna. blir helgens eller måndagens uppdrag 🌟

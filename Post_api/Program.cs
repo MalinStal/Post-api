@@ -76,6 +76,7 @@ public class Program
 
         builder.Services.AddScoped<PostService, PostService>();
         builder.Services.AddScoped<CommentService, CommentService>();
+         builder.Services.AddScoped<FileService, FileService>();
         
 
         builder.Services.AddEndpointsApiExplorer();
@@ -84,7 +85,7 @@ public class Program
         var app = builder.Build();
 
         app.MapIdentityApi<User>();
-
+  
         app.MapControllers();
         app.UseHttpsRedirection();
 

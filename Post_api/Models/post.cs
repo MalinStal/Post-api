@@ -28,5 +28,15 @@ public class Post
   
 
     }
-    
+    public void AddFile(FileModel file){
+        if(file != null){
+            Images?.Add(file);
+        }
+    }
+       public void RemoveFile(FileModel file){
+        if(file != null){
+            Images?.Remove(file);
+        }
+    }
+
     }
