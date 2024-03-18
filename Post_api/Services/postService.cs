@@ -34,7 +34,7 @@ public class PostService
             throw new ArgumentException("there is no User connected to this id");
         }
 
-        Post newPost = new Post(title, body, user, new List<Comment>(), new List<FileModel>());
+        Post newPost = new Post(title, body, user, new List<Comment>());
 
      
         context.Posts.Add(newPost);
@@ -91,7 +91,7 @@ public class PostService
 
     public List<Post> GetAllPost()
     {
-        var list = context.Posts.Include(p => p.Comments).ToList();
+        var list = context.Posts.Include(p => p.Comments).Include(p => p.Images).ToList();
         return list;
     }
 }

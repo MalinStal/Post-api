@@ -1,10 +1,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Options;
+
 
 namespace post;
 
@@ -46,7 +43,7 @@ public class PostControllers : ControllerBase
     }
 
     [HttpDelete("delete/{id}")]
-    [Authorize("remove-post")]
+    [Authorize("delete-post")]
     public IActionResult DeletePost(int id)
     {
         try

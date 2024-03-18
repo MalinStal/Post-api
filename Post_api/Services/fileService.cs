@@ -1,3 +1,4 @@
+using System.Transactions;
 using Microsoft.EntityFrameworkCore;
 using post;
 
@@ -12,9 +13,8 @@ public class FileService
 
     public List<string> ImageTypes { get; set; } = new List<string>() { "png", "jpg" };
 
-    public List<FileModel>  CreateFile(int postId, string userId, List<IFormFile> files)
+    public string CreateFile(int postId, string userId, List<IFormFile> files)
     {
-    
         int maxFileSize = 256000; //ska kunna ladda upp 250kb
 
         var post = Context.Posts.Include(p => p.Images).FirstOrDefault(p => p.Id == postId);
@@ -25,40 +25,58 @@ public class FileService
         var user = Context.Users.FirstOrDefault(u => u.Id == userId);
         if (user == null)
         {
-        
             throw new ArgumentException("User does not exist.");
-
         }
 
         var newFiles = new List<FileModel>();
-
-        foreach (var file in files)
+        using (var transaction = Context.Database.BeginTransaction())
         {
-            if (file.Length > maxFileSize)
-                throw new ArgumentException("File is too large.");
-
-            var extension = Path.GetExtension(file.ContentType).ToLower();
-            if (!ImageTypes.Contains(extension))
-                throw new ArgumentException("Invalid file type.");
-
-            using (var memoryStream = new MemoryStream())
+            try
             {
-                file.CopyTo(memoryStream);
-                var content = memoryStream.ToArray();
+                foreach (var file in files)
+                {
+                    using (MemoryStream stream = new MemoryStream())
+                    {
+                        file.CopyTo(stream);
+                        var content = stream.ToArray();
+                        var extension = file.ContentType.ToLower();
+                        var fileName = file.FileName;
 
-                var newFile = new FileModel(file.FileName, content, extension);
-                post.AddFile(newFile);
-                newFiles.Add(newFile);
+                        if (content.Length > maxFileSize)
+                        {
+                            throw new ArgumentException("File is too large.");
+                        }
+
+                        if (!ImageTypes.Contains(extension))
+                        {
+                            throw new ArgumentException("Invalid file type.");
+                        }
+
+                        FileModel? newFile = new FileModel(fileName, content, extension);
+                        Context.FileModels.Add(newFile);
+                        newFiles.Add(newFile);
+                    }
+
+                }
+                    Context.SaveChanges();
+                    transaction.Commit();
+                    return "upload succes";
+            }
+            catch (ArgumentException)
+            {
+                transaction.Rollback();
+                throw new ArgumentException("cant upload this file");
             }
         }
-
-        Context.SaveChanges();
-        return newFiles;
-
     }
 
+    // public List<FileModel> getAllFiles(string fileName){
+    //      FileModel? model = Context.FileModels.Where(file => file.Name == fileName).First();
 
-    public string RemoveFile(int postId, int userId, FileModel file)
+    //     return FileModel(model.Name, model.Content, model.Extension, );
+    // }
+
+    public string DeleteFile(int postId, string userId, int fileId)
     {
         User? user = Context.Users.Find(userId);
         if (user == null)
@@ -68,76 +86,15 @@ public class FileService
         Post? post = Context.Posts.Find(postId);
         if (post != null)
         {
-            post.RemoveFile(file);
-            Context.Update(post);
-            Context.SaveChanges();
-            return "Delete successfully";
+            FileModel? file = Context.FileModels.Find(fileId);
+            if (file != null)
+            {
+                Context.FileModels.Remove(file);
+                Context.Update(post);
+                Context.SaveChanges();
+                return "Delete successfully";
+            }
         }
         throw new ArgumentNullException("Post dos not exist ");
     }
 }
-
-
-
-        // List<FileModel> FileHolder = files;
-
-
-        // User? user = Context.Users.Find(userId);
-        // if (user == null)
-        // {
-        //     throw new ArgumentNullException("you must log in");
-        // }
-
-        // Post? post = Context.Posts.Find(postId);
-
-        // if (post != null)
-        // {
-            
-        //     foreach (FileModel file in FileHolder)
-        //     {
-        //         string? fileName = file.Name;
-        //         byte[]? content = file.Content;
-        //         string? extension = file.Extension;
-
-        //         if (content == null)
-        //         {
-        //             throw new ArgumentException("file must not be null");
-        //         }
-        //         if (fileName == null)
-        //         {
-        //             throw new ArgumentNullException("Name must not be null");
-        //         }
-        //         if (content.Length > maxFileSize)
-        //         {
-        //             throw new ArgumentOutOfRangeException("File is to big");
-        //         }
-        //         if (extension != null)
-        //         {
-        //             if (!ImageTypes.Contains(extension))
-        //             {
-        //                 throw new ArgumentOutOfRangeException(
-        //                     "the file is not valid, only png and jpg files"
-        //                 );
-        //             }
-        //             else if (ImageTypes.Contains(extension))
-        //             {
-        //                 FileModel? newFile = new FileModel(fileName, content, extension);
-        //                 post.AddFile(newFile);
-        //                 Context.Update(post);
-        //             }
-
-        //             throw new ArgumentException("file type must not be null");
-        //         }
-
-        //     } 
-        //     List<FileModel>? newList = post.Images;
-        //     if(newList != null){
-        //         Context.SaveChanges();
-        //         return newList ; 
-        //     }
-
-        //  throw new ArgumentNullException("tje new list is null");                 
-
-        // }
-
-        // throw new ArgumentNullException("Post dos not exist ");

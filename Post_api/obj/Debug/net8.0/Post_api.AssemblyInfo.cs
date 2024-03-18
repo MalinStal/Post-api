@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Post_api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ae5a81c45b73a188d72d2b09977ec2b71a9de4b6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7641aeeee6456bf37f33e098e6a9269372993c0b")]
 [assembly: System.Reflection.AssemblyProductAttribute("Post_api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Post_api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

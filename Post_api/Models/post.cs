@@ -12,31 +12,19 @@ public class Post
     [JsonIgnore]
     public User? User { get; set; }
     public List<Comment>? Comments {get; set;}
-    public List<FileModel>? Images {get; set;}
+    public List<FileModel>? Images {get; set;} = new List<FileModel>();
 
-   
 
     public Post() { }
 
-    public Post(string title, string body, User user, List<Comment> comment, List<FileModel> files)
+    public Post(string title, string body, User user, List<Comment> comment)
     {
         this.Title = title;
         this.Body = body;
         this.User = user;
         this.Comments = comment;
-        this.Images = files;
-  
 
     }
-    public void AddFile(FileModel file){
-        if(file != null){
-            Images?.Add(file);
-        }
-    }
-       public void RemoveFile(FileModel file){
-        if(file != null){
-            Images?.Remove(file);
-        }
-    }
+
 
     }

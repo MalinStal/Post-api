@@ -1,9 +1,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Options;
+
 
 namespace post;
 
@@ -62,11 +60,14 @@ public class CommentControllers : ControllerBase
     [Authorize("update-comment")]
     public IActionResult UpdateComment(int id, [FromBody] CreateCommentDto dto)
     {   var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+    if(user != null){
         Comment comment = commentService.UpdateComment(user, id, dto.Title, dto.Body);
-        if (comment != null)
-        {
-            return Ok(comment);
-        }
+            if (comment != null)
+            {
+                return Ok(comment);
+            }
+    }
+       
         return NotFound("cant find the comment");
     }
 }

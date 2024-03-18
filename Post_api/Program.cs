@@ -26,7 +26,7 @@ public class Program
                 }
             );
             options.AddPolicy(
-                "remove-post",
+                "delete-post",
                 policy =>
                 {
                     policy.RequireAuthenticatedUser();
@@ -34,6 +34,20 @@ public class Program
             );
             options.AddPolicy(
                 "update-post",
+                policy =>
+                {
+                    policy.RequireAuthenticatedUser();
+                }
+            );
+              options.AddPolicy(
+                "create-file",
+                policy =>
+                {
+                    policy.RequireAuthenticatedUser();
+                }
+            );
+              options.AddPolicy(
+                "delete-file",
                 policy =>
                 {
                     policy.RequireAuthenticatedUser();

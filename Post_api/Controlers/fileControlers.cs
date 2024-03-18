@@ -1,10 +1,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Options;
+
 using post;
 
 [ApiController]
@@ -12,15 +9,18 @@ using post;
 public class FileControllers : ControllerBase
 {
   
-    FileService fileService;
+    public FileService fileService;
+
 
     public FileControllers( FileService fileService)
     {
     
         this.fileService = fileService;
+       
     }
-  [HttpPost("addFiles")]
-    public IActionResult AddFiles([FromForm]  int postId, List<IFormFile> files){
+    [HttpPost("addFiles/{postId}")]
+    [Authorize("create-file")]
+    public IActionResult AddFiles( int postId, [FromForm] List<IFormFile> files){
         
        
 
@@ -34,31 +34,38 @@ public class FileControllers : ControllerBase
             }
             try{
                 var newFiles = fileService.CreateFile(postId, userId, files);
-            var output = newFiles.Select(f => new FileModelDto(f)).ToList();
-            return Ok(output);
+            // FileModelDto outputt = new FileModelDto();
+            //var output = newFiles.Select(file => new FileModelDto(file)).ToList();
+            return Ok("upload succes");
            
         } catch(ArgumentException ex){
             return BadRequest(ex.Message);
         }
     }
-} // List<FileModel> FileList = new List<FileModel>();
+    [HttpDelete("delete/{postId}/{fileId}")]
+       [Authorize("delete-file")]
+       public IActionResult deleteFile(int postId, int fileId)
+       {
+             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                return NotFound();
+            }
+            try{
+                var newFiles = fileService.DeleteFile( postId, userId, fileId);
+         
+            return Ok();
+           
+        } catch(ArgumentException ex){
+            return BadRequest(ex.Message);
+        }
+       }
+ 
+// [HttpGet("file")]
+//     public IActionResult DownloadFile([FromQuery] string fileName)
+//     {
+   
+//     }
+// }
 
-            // if (files != null && files.Count > 0)
-            // {
-            //     using (MemoryStream stream = new MemoryStream())
-            //     {
-            //         foreach (var file in files)
-            //         {
-            //             file.CopyTo(stream);
-            //             // sparar streamen i en byte Array
-            //             byte[] content = stream.ToArray();
-
-            //             FileModel model = new FileModel(file.FileName, content, file.ContentType);
-            //             FileList.Add(model);
-            //         }
-            //         // gör en kopia av filen
-
-            //         List<FileModel> newFiles = fileService.CreateFile(postId, userId, FileList);
-            //         FileModelDto output = new FileModelDto(newFile);
-            //         return Ok(output);
-            //     }
+}
