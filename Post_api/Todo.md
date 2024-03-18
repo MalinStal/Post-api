@@ -20,5 +20,12 @@ Todo!
 - kan vi göra denna app mer säker? typ anvönda protected istället för public?
 - ändra om felhantering genom att skapa en funktion som hanterar detta som man kan återanvända.Gjorde det i .Net kursen
 
-### bild hantering 
-nu lägger den till bilder anser den däremot så finns inget i databasen vilket innebär att någonit nginte funkar som det ska i koden... frågan är vad ? 
+### roles
+
+vill ha roles i tre steg: 
+
+1. Big Boss : kan ta bort Users, Posts och comments på hela sidan
+2. Admin : kan ta bort Posts och comments på hela sidan förutom dom från big boss
+3. PR : kan bara ta bort comments  på hela sidan förutom dom från big boss och admin
+
+
