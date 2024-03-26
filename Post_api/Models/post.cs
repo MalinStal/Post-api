@@ -12,8 +12,8 @@ public class Post
     [JsonIgnore]
     public User? User { get; set; }
     public List<Comment>? Comments {get; set;}
+    public List<FileModel>? Images {get; set;} = new List<FileModel>();
 
-   
 
     public Post() { }
 
@@ -23,8 +23,8 @@ public class Post
         this.Body = body;
         this.User = user;
         this.Comments = comment;
-  
 
     }
-    
+
+
     }

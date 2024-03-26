@@ -26,7 +26,7 @@ public class Program
                 }
             );
             options.AddPolicy(
-                "remove-post",
+                "delete-post",
                 policy =>
                 {
                     policy.RequireAuthenticatedUser();
@@ -34,6 +34,20 @@ public class Program
             );
             options.AddPolicy(
                 "update-post",
+                policy =>
+                {
+                    policy.RequireAuthenticatedUser();
+                }
+            );
+              options.AddPolicy(
+                "create-file",
+                policy =>
+                {
+                    policy.RequireAuthenticatedUser();
+                }
+            );
+              options.AddPolicy(
+                "delete-file",
                 policy =>
                 {
                     policy.RequireAuthenticatedUser();
@@ -76,6 +90,7 @@ public class Program
 
         builder.Services.AddScoped<PostService, PostService>();
         builder.Services.AddScoped<CommentService, CommentService>();
+         builder.Services.AddScoped<FileService, FileService>();
         
 
         builder.Services.AddEndpointsApiExplorer();
@@ -84,7 +99,7 @@ public class Program
         var app = builder.Build();
 
         app.MapIdentityApi<User>();
-
+  
         app.MapControllers();
         app.UseHttpsRedirection();
 
