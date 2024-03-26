@@ -63,12 +63,11 @@ public class PostControllers : ControllerBase
     }
 
     [HttpGet("allPosts")]
-    public List<Post> GetAllPosts()
+    public List<PostDto> GetAllPosts()
     {
         var list = postService.GetAllPost();
-        //behövs denna rad ens??
-        var newList = list.Select(comment => new PostDto(comment)).ToList();
-        return list;
+        var newList = list.Select(post => new PostDto(post)).ToList();
+        return newList;
     }
 
     [HttpPut("update/{id}")]

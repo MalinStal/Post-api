@@ -17,7 +17,7 @@ Todo!
 - En post ska nu också kunna innehålla flera bild filer. 
 - skapa olika nivåer av användare, en user och en admin roll som kan hantera allas post och kommentarer. 
 - få med namn på user i kommentarerna 
-- kan vi göra denna app mer säker? typ anvönda protected istället för public?
+- kan vi göra denna app mer säker? typ använda protected istället för public?
 - ändra om felhantering genom att skapa en funktion som hanterar detta som man kan återanvända.Gjorde det i .Net kursen
 
 ### roles

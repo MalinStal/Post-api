@@ -24,7 +24,7 @@ public class FileControllers : ControllerBase
         
        
 
-            if(files == null || files.Count > 0){
+            if(files == null || files.Count == 0){
                 return BadRequest("File is null");
             }
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -34,14 +34,14 @@ public class FileControllers : ControllerBase
             }
             try{
                 var newFiles = fileService.CreateFile(postId, userId, files);
-            // FileModelDto outputt = new FileModelDto();
-            //var output = newFiles.Select(file => new FileModelDto(file)).ToList();
             return Ok("upload succes");
            
         } catch(ArgumentException ex){
             return BadRequest(ex.Message);
         }
     }
+
+
     [HttpDelete("delete/{postId}/{fileId}")]
        [Authorize("delete-file")]
        public IActionResult deleteFile(int postId, int fileId)
@@ -60,12 +60,6 @@ public class FileControllers : ControllerBase
             return BadRequest(ex.Message);
         }
        }
- 
-// [HttpGet("file")]
-//     public IActionResult DownloadFile([FromQuery] string fileName)
-//     {
-   
-//     }
-// }
+
 
 }

@@ -91,7 +91,12 @@ public class PostService
 
     public List<Post> GetAllPost()
     {
+        
         var list = context.Posts.Include(p => p.Comments).Include(p => p.Images).ToList();
+        foreach(var item in list){
+            Console.WriteLine(item.Images.Count);
+        }
         return list;
+
     }
 }
