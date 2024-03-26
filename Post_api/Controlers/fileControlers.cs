@@ -61,12 +61,5 @@ public class FileControllers : ControllerBase
         }
        }
 
-//  [HttpGet("file")]
-//     public IActionResult DownloadFile([FromQuery] string fileName)
-//     {
-//         FileModel? model = context.Files.Where(file => file.Name == fileName).First();
-
-//         return File(model.Content, model.Extension, model.Name);
-//     }
 
 }
