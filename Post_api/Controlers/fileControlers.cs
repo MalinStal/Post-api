@@ -19,7 +19,8 @@ public class FileControllers : ControllerBase
        
     }
     [HttpPost("addFiles/{postId}")]
-    [Authorize("create-file")]
+     [Authorize("login")]
+    //[Authorize("create-file")]
     public IActionResult AddFiles( int postId, [FromForm] List<IFormFile> files){
         
        
@@ -43,7 +44,8 @@ public class FileControllers : ControllerBase
 
 
     [HttpDelete("delete/{postId}/{fileId}")]
-       [Authorize("delete-file")]
+       //[Authorize("delete-file")]
+
        public IActionResult deleteFile(int postId, int fileId)
        {
              var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);

@@ -1,6 +1,11 @@
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+
+
+
 
 
 namespace post;
@@ -11,6 +16,8 @@ public class PostControllers : ControllerBase
 {
     PostService postService;
     FileService fileService;
+     private RoleManager<IdentityRole> roleManager;
+    private UserManager<User> userManager;
 
     public PostControllers(PostService postService, FileService fileService)
     {
@@ -19,7 +26,8 @@ public class PostControllers : ControllerBase
     }
 
     [HttpPost("newpost")]
-    [Authorize("create-post")]
+    [Authorize("login")]
+    //[Authorize("create-post")]
     public IActionResult CreatePost([FromBody] CreatePostDto dto)
     {
         try
@@ -43,7 +51,8 @@ public class PostControllers : ControllerBase
     }
 
     [HttpDelete("delete/{id}")]
-    [Authorize("delete-post")]
+     [Authorize("login")]
+    //[Authorize("delete-post")]
     public IActionResult DeletePost(int id)
     {
         try
@@ -71,7 +80,8 @@ public class PostControllers : ControllerBase
     }
 
     [HttpPut("update/{id}")]
-    [Authorize("update-post")]
+    //[Authorize("update-post")]
+     [Authorize("login")]
     public IActionResult UpdatePost(int id, [FromBody] CreatePostDto dto)
     {
         try

@@ -1,79 +1,34 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Options;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication;
+
 
 namespace post;
 
 public class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-
-        // Auth auth = new Auth();
-
-        // auth.policy(args);
-  builder.Services.AddAuthorization(options =>
+    builder.Services.AddAuthorization(options =>
         {
             options.AddPolicy(
-                "create-post",
+                "login",
                 policy =>
                 {
                     policy.RequireAuthenticatedUser();
                 }
             );
-            options.AddPolicy(
-                "delete-post",
-                policy =>
-                {
-                    policy.RequireAuthenticatedUser();
-                }
-            );
-            options.AddPolicy(
-                "update-post",
-                policy =>
-                {
-                    policy.RequireAuthenticatedUser();
-                }
-            );
-              options.AddPolicy(
-                "create-file",
-                policy =>
-                {
-                    policy.RequireAuthenticatedUser();
-                }
-            );
-              options.AddPolicy(
-                "delete-file",
-                policy =>
-                {
-                    policy.RequireAuthenticatedUser();
-                }
-            );
-            options.AddPolicy(
-                "create-comment",
-                policy =>
-                {
-                    policy.RequireAuthenticatedUser();
-                }
-            );
-            options.AddPolicy(
-                "delete-comment",
-                policy =>
-                {
-                    policy.RequireAuthenticatedUser();
-                }
-            );
-            options.AddPolicy(
-                "update-comment",
-                policy =>
-                {
-                    policy.RequireAuthenticatedUser();
-                }
-            );
+            // options.AddPolicy(
+            //     "create-post",
+            //     policy =>
+            //     {
+            //         policy.RequireAuthenticatedUser();
+            //     }
+            // );
+           
         });
         builder.Services.AddDbContext<DatabaseContext>(options =>
             options.UseNpgsql("Host=localhost;Database=post;Username=postgres;Password=post")
@@ -84,6 +39,7 @@ public class Program
         //för att använda och koppla identityCore till databasen
         builder
             .Services.AddIdentityCore<User>()
+            .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<DatabaseContext>()
             .AddApiEndpoints();
         builder.Services.AddControllers();
@@ -92,7 +48,7 @@ public class Program
         builder.Services.AddScoped<CommentService, CommentService>();
          builder.Services.AddScoped<FileService, FileService>();
         
-
+        builder.Services.AddTransient<IClaimsTransformation, MyClaimsTransformation>();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
@@ -106,60 +62,46 @@ public class Program
         app.UseAuthentication();
         app.UseAuthorization();
 
+        using(var scope = app.Services.CreateScope()){
+            var RoleManager =scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var roles  = new[] {"admin", "Maneger", "Member"};
+            foreach(var role in roles){
+                if(!await RoleManager.RoleExistsAsync(role))
+                await RoleManager.CreateAsync(new IdentityRole(role));
+            }
+        }
+
         app.Run();
     }
 }
-
-class Auth
+public class MyClaimsTransformation : IClaimsTransformation
 {
-    public void policy(string[] args)
-    {
-        var builder = WebApplication.CreateBuilder(args);
+    UserManager<User> userManager;
 
-        builder.Services.AddAuthorization(options =>
+    public MyClaimsTransformation(UserManager<User> userManager)
+    {
+        this.userManager = userManager;
+    }
+
+    public async Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
+    {
+        ClaimsIdentity claims = new ClaimsIdentity();
+
+        var id = principal.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (id != null)
         {
-            options.AddPolicy(
-                "create-post",
-                policy =>
+            var user = await userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                var userRoles = await userManager.GetRolesAsync(user);
+                foreach (var userRole in userRoles)
                 {
-                    policy.RequireAuthenticatedUser();
+                    claims.AddClaim(new Claim(ClaimTypes.Role, userRole));
                 }
-            );
-            options.AddPolicy(
-                "remove-post",
-                policy =>
-                {
-                    policy.RequireAuthenticatedUser();
-                }
-            );
-            options.AddPolicy(
-                "update-post",
-                policy =>
-                {
-                    policy.RequireAuthenticatedUser();
-                }
-            );
-            options.AddPolicy(
-                "create-comment",
-                policy =>
-                {
-                    policy.RequireAuthenticatedUser();
-                }
-            );
-            options.AddPolicy(
-                "delete-comment",
-                policy =>
-                {
-                    policy.RequireAuthenticatedUser();
-                }
-            );
-            options.AddPolicy(
-                "update-comment",
-                policy =>
-                {
-                    policy.RequireAuthenticatedUser();
-                }
-            );
-        });
+            }
+        }
+
+        principal.AddIdentity(claims);
+        return await Task.FromResult(principal);
     }
 }

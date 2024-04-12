@@ -17,7 +17,8 @@ public class CommentControllers : ControllerBase
     }
 
     [HttpPost]
-    [Authorize("create-comment")]
+    [Authorize("login")]
+    //[Authorize("create-comment")]
     public IActionResult AddComment([FromBody] CreateCommentDto dto)
     {
         try
@@ -37,7 +38,8 @@ public class CommentControllers : ControllerBase
     }
 
     [HttpDelete("delete/{id}")]
-    [Authorize("delete-comment")]
+     [Authorize("login")]
+    //[Authorize("delete-comment")]
     public IActionResult RemoveComment(int id)
     {
         try
@@ -57,7 +59,8 @@ public class CommentControllers : ControllerBase
     }
 
     [HttpPut("update/{id}")]
-    [Authorize("update-comment")]
+     [Authorize("login")]
+    //[Authorize("update-comment")]
     public IActionResult UpdateComment(int id, [FromBody] CreateCommentDto dto)
     {   var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
     if(user != null){

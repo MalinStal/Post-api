@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Routing.Constraints;
 using Microsoft.Net.Http.Headers;
+using post;
 
 public class FileModel{
 public int Id {get; set;}
@@ -10,6 +11,8 @@ public byte[]? Content {get; set;}
 
 //
 public string? Extension {get; set;}
+
+
 
 public FileModel(){}
 public FileModel(string name, byte[] content, string ex){
