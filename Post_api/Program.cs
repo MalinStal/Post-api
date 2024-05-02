@@ -13,9 +13,6 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Auth auth = new Auth();
-
-        // auth.policy(args);
   builder.Services.AddAuthorization(options =>
         {
             options.AddPolicy(
@@ -90,9 +87,8 @@ public class Program
 
         builder.Services.AddScoped<PostService, PostService>();
         builder.Services.AddScoped<CommentService, CommentService>();
-         builder.Services.AddScoped<FileService, FileService>();
+        builder.Services.AddScoped<FileService, FileService>();
         
-
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 

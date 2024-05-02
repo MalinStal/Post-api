@@ -30,25 +30,45 @@ public class CommentService
         return newComment;
     }
 
-    public Comment RemoveComment(int id, string userId)
-    {
-        User? user = context.Users.Find(userId);
-        Comment? comment = context.Comments.Find(id);
-        if (comment == null)
-        {
-            throw new ArgumentException("Comment not found whit this id");
-        }
-        if (user != null)
-        {
-            List<Comment>? comments = context
-                .Comments.Where(comment => comment.User.Id == user.Id && comment.Id == id)
-                .ToList();
-        }
-        context.Comments.Remove(comment);
-        context.SaveChanges();
+    // public Comment RemoveComment(int id, string userId)
+    // {
+    //     User? user = context.Users.Find(userId);
+    //     Comment? comment = context.Comments.Find(id);
+    //     if (comment == null)
+    //     {
+    //         throw new ArgumentException("Comment not found whit this id");
+    //     }
+    //     if (user != null)
+    //     {
+    //         List<Comment>? comments = context
+    //             .Comments.Where(comment => comment.User.Id == user.Id && comment.Id == id)
+    //             .ToList();
+    //     }
+    //     context.Comments.Remove(comment);
+    //     context.SaveChanges();
 
-        return comment;
+    //     return comment;
+    // }
+    public Comment RemoveComment(int id, string userId)
+{
+    User user = context.Users.Find(userId);
+    if (user == null)
+    {
+        throw new ArgumentException("User not found");
     }
+
+    Comment comment = context.Comments.FirstOrDefault(c => c.Id == id && c.User == user);
+    if (comment == null)
+    {
+        throw new ArgumentException("Comment not found");
+    }
+
+    context.Comments.Remove(comment);
+    context.SaveChanges();
+
+    return comment;
+}
+
 
     public Comment UpdateComment(string userId, int commentId, string title, string body)
     {

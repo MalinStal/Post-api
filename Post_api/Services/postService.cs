@@ -41,7 +41,45 @@ public class PostService
         context.SaveChanges(); 
 
         return newPost;
-    }
+     }
+    //  public Post DeletePost(int id, string userId)
+    // {
+    //test med hjälp v chattGTP 
+    //     User? user = context.Users.Find(userId);
+    //     if (user == null)
+    //     {
+    //         throw new ArgumentException("User is not logged in");
+    //     }
+    //     int postId = id;
+    //   Post? post = context.Posts
+    // .Include(p => p.Comments)
+    // .Include(p => p.Images)
+    // .FirstOrDefault(p => p.Id == id && p.User.Id == user.Id);
+           
+    //     if (post == null)
+    //     {
+    //         throw new ArgumentException("Post not found");
+    //         Console.WriteLine("1"  + postId+ id + post.Id + post.Images?[0].Id + post.Comments?[0].Id);
+
+    //     } 
+    //     Console.WriteLine("1"  + postId+ id + post.Id + post.Images?[0].Id + post.Comments?[0].Id);
+    //     foreach (var comment in post.Comments)
+    //     {
+    //         commentService.RemoveComment(comment.Id, userId);
+    //           Console.WriteLine("2" + comment.Id);
+    //     }
+
+    //     foreach (var file in post.Images)
+    //     {
+    //         fileService.DeleteFile(post.Id, userId, file.Id);
+    //           Console.WriteLine("3" + file.Id);
+    //     }
+
+    //     context.Posts.Remove(post);
+    //     context.SaveChanges();
+
+    //     return post;
+    // }
 
     public Post DeletePost(int id, string userId)
     {
@@ -55,6 +93,12 @@ public class PostService
             if (posts != null)
             {
                 Post post = posts[0];
+                if(post.Comments != null){
+                    Console.WriteLine("commetns not null");
+                }
+                 if(post.Images != null){
+                    Console.WriteLine("images not null");
+                }
                 context.Posts.Remove(post);
                 context.SaveChanges();
                 return post;

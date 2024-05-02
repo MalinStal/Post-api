@@ -82,26 +82,51 @@ public class FileService
         }
     }
 
-
-    public string DeleteFile(int postId, string userId, int fileId)
+public string DeleteFile(int postId, string userId, int fileId)
+{
+    User user = Context.Users.Find(userId);
+    if (user == null)
     {
-        User? user = Context.Users.Find(userId);
-        if (user == null)
-        {
-            throw new ArgumentNullException("you must log in");
-        }
-        Post? post = Context.Posts.Find(postId);
-        if (post != null)
-        {
-            FileModel? file = Context.FileModels.Find(fileId);
-            if (file != null)
-            {
-                Context.FileModels.Remove(file);
-                Context.Update(post);
-                Context.SaveChanges();
-                return "Delete successfully";
-            }
-        }
-        throw new ArgumentNullException("Post dos not exist ");
+        throw new ArgumentException("User not found");
     }
+
+    Post post = Context.Posts.FirstOrDefault(p => p.Id == postId && p.User == user);
+    if (post == null)
+    {
+        throw new ArgumentException("Post not found");
+    }
+
+    FileModel file = Context.FileModels.FirstOrDefault(f => f.Id == fileId);
+    if (file == null)
+    {
+        throw new ArgumentException("File not found");
+    }
+
+    Context.FileModels.Remove(file);
+    Context.SaveChanges();
+
+    return "File deleted successfully";
+}
+
+    // public string DeleteFile(int postId, string userId, int fileId)
+    // {
+    //     User? user = Context.Users.Find(userId);
+    //     if (user == null)
+    //     {
+    //         throw new ArgumentNullException("you must log in");
+    //     }
+    //     Post? post = Context.Posts.Find(postId);
+    //     if (post != null)
+    //     {
+    //         FileModel? file = Context.FileModels.Find(fileId);
+    //         if (file != null)
+    //         {
+    //             Context.FileModels.Remove(file);
+    //             Context.Update(post);
+    //             Context.SaveChanges();
+    //             return "Delete successfully";
+    //         }
+    //     }
+    //     throw new ArgumentNullException("Post dos not exist ");
+    // }
 }

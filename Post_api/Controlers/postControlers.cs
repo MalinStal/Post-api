@@ -41,9 +41,9 @@ public class PostControllers : ControllerBase
             return BadRequest();
         }
     }
-
+//Får problem när jag vill radera en post som har commentarer eller filer i sig. blir något internoll error fel 
     [HttpDelete("delete/{id}")]
-    [Authorize("delete-post")]
+   // [Authorize("delete-post")]
     public IActionResult DeletePost(int id)
     {
         try
@@ -53,12 +53,15 @@ public class PostControllers : ControllerBase
             {
                 return NotFound();
             }
+            Console.WriteLine("we try");
             Post post = postService.DeletePost(id, userId);
+              Console.WriteLine("we try post");
             return Ok(post);
         }
         catch (ArgumentException)
         {
             return BadRequest();
+           
         }
     }
 
